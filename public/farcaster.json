@@ -1,0 +1,17 @@
+{
+  "name": "Xmas Wallet",
+  "description": "Celebrate on Base! A multi-wallet Farcaster mini app using Reown + WalletConnect",
+  "url": "https://xmas-wallet.vercel.app",
+  "icon": "https://i.ibb.co/gmDqvkh/xmas-wallet-icon.png",
+  "developer": "@mumair738",
+  "permissions": ["wallet_connect", "user_profile"],
+  "version": "1.0.0",
+  "baseBuilder": {
+    "ownerAddress": "0x064eDF609a89049Ddd3A59341F2F39D82eae1840"
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjIzNjY2OSwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDY3MTQ2YzBDYmE4ODEwQ0U5OGFFMjE4MGU0RmExRWNBMjAxYzhGNTYifQ",
+    "payload": "eyJkb21haW4iOiJ4bWFzLXdhbGxldC52ZXJjZWwuYXBwIn0",
+    "signature": "kUdpD23zI/f6i9lrXZRJyDNDQVVJX/vZ34kRVpFJBN1w3blj5dVzxbwgVo17klxFJMsB6XuW5Ur9cKbBbUnNBRw="
+  }
+}
