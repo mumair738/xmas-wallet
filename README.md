@@ -94,12 +94,12 @@ Add the following `public/farcaster.json` to your repo (example below); then sub
   "permissions": ["wallet_connect", "user_profile"],
   "version": "1.0.0",
   "baseBuilder": {
-    "ownerAddress": "0x064eDF609a89049Ddd3A59341F2F39D82eae1840"
+    "ownerAddress": "0x0"
   },
   "accountAssociation": {
-    "header": "eyJmaWQiOjIzNjY2OSwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDY3MTQ2YzBDYmE4ODEwQ0U5OGFFMjE4MGU0RmExRWNBMjAxYzhGNTYifQ",
-    "payload": "eyJkb21haW4iOiJ4bWFzLXdhbGxldC52ZXJjZWwuYXBwIn0",
-    "signature": "kUdpD23zI/f6i9lrXZRJyDNDQVVJX/vZ34kRVpFJBN1w3blj5dVzxbwgVo17klxFJMsB6XuW5Ur9cKbBbUnNBRw="
+    "header": "",
+    "payload": "",
+    "signature": ""
   }
 }
 ```
