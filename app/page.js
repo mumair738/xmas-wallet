@@ -1,70 +1,47 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import WalletConnectClient from "@walletconnect/client";
-import { createAppKit } from "@reown/appkit";
-import { base } from "viem/chains";
-
-// ---- CONFIG: your IDs ----
-const YOUR_REOWN_PROJECT_ID = "7e98fa9b8b69bf3625843b3394754245";
-const YOUR_WALLETCONNECT_PROJECT_ID = "b4d7728a-09b0-4a41-b5f1-44f1ee5142f5";
-const APP_URL = "https://xmas-wallet.vercel.app"; // updated with cleaner URL
-const APP_ICON = "https://i.ibb.co/gmDqvkh/xmas-wallet-icon.png"; // festive gift icon
-// --------------------------------------------------
-
-const appKit = createAppKit({
-  appName: "Xmas Wallet",
-  chains: [base],
-  projectId: YOUR_REOWN_PROJECT_ID,
-  walletConnect: { projectId: YOUR_WALLETCONNECT_PROJECT_ID },
-});
-
-const wcClient = new WalletConnectClient({
-  projectId: YOUR_WALLETCONNECT_PROJECT_ID,
-  metadata: {
-    name: "Xmas Wallet",
-    description: "Farcaster mini app for Base network using Reown + WalletConnect",
-    url: APP_URL,
-    icons: [APP_ICON],
-  },
-});
 
 export default function XmasWalletApp() {
-  const [connected, setConnected] = useState(false);
-  const [walletName, setWalletName] = useState(null);
-  const [session, setSession] = useState(null);
+  const [ready, setReady] = useState(false);
   const [statusMsg, setStatusMsg] = useState("Idle");
+  const [walletName, setWalletName] = useState(null);
 
+  // Run only on client side
   useEffect(() => {
-    if (wcClient) {
-      wcClient.on?.("session_update", (args) => console.log("wc session update", args));
-      wcClient.on?.("session_delete", () => {
-        setConnected(false);
-        setSession(null);
-        setWalletName(null);
-        setStatusMsg("Disconnected");
-      });
+    if (typeof window !== "undefined") {
+      setReady(true);
     }
-
-    return () => {
-      try {
-        wcClient?.off?.("session_update");
-        wcClient?.off?.("session_delete");
-      } catch (e) {}
-    };
   }, []);
 
-  const connectBoth = async () => {
-    setStatusMsg("Opening Reown AppKit...");
+  const connectWallet = async () => {
     try {
-      await appKit.open();
-      setStatusMsg("Reown opened — now attempting WalletConnect fallback...");
-    } catch (err) {
-      console.warn("Reown open failed or closed:", err?.message || err);
-    }
+      setStatusMsg("Initializing wallet...");
+      // Dynamically import browser-only SDKs
+      const [{ default: WalletConnectClient }, { createAppKit }] = await Promise.all([
+        import("@walletconnect/client"),
+        import("@reown/appkit"),
+      ]);
+      const { base } = await import("viem/chains");
 
-    try {
-      if (!wcClient) throw new Error("WalletConnect client not initialized");
+      const appKit = createAppKit({
+        appName: "Xmas Wallet",
+        chains: [base],
+        projectId: "7e98fa9b8b69bf3625843b3394754245",
+        walletConnect: { projectId: "b4d7728a-09b0-4a41-b5f1-44f1ee5142f5" },
+      });
+
+      const wcClient = new WalletConnectClient({
+        projectId: "b4d7728a-09b0-4a41-b5f1-44f1ee5142f5",
+        metadata: {
+          name: "Xmas Wallet",
+          description: "Farcaster mini app for Base network using Reown + WalletConnect",
+          url: "https://xmas-wallet.vercel.app",
+          icons: ["https://i.ibb.co/gmDqvkh/xmas-wallet-icon.png"],
+        },
+      });
+
+      await appKit.open();
       const pairing = await wcClient.connect({
         requiredNamespaces: {
           eip155: {
@@ -75,98 +52,32 @@ export default function XmasWalletApp() {
         },
       });
 
-      setSession(pairing);
-      setConnected(true);
-      setWalletName(pairing.peer?.metadata?.name || "WalletConnect Wallet");
-      setStatusMsg("Connected — session established");
+      setWalletName(pairing.peer.metadata.name);
+      setStatusMsg("Connected successfully 🎉");
     } catch (err) {
-      console.error("WalletConnect connect failed:", err);
-      setStatusMsg("WalletConnect connect failed — check console");
+      console.error(err);
+      setStatusMsg("Connection failed ❌");
     }
   };
 
-  const disconnect = async () => {
-    setStatusMsg("Disconnecting...");
-    try {
-      if (session && wcClient) await wcClient.disconnect({ topic: session.topic });
-    } catch (e) {
-      console.warn("disconnect error", e);
-    }
-    setConnected(false);
-    setSession(null);
-    setWalletName(null);
-    setStatusMsg("Disconnected");
-  };
-
-  const renderStatus = () => {
-    if (connected) {
-      return (
-        <div className="mt-4 p-3 rounded-lg border border-green-200 bg-green-50">
-          <p className="font-semibold">Connected: {walletName}</p>
-          <p className="text-sm">Status: {statusMsg}</p>
-          <button
-            onClick={disconnect}
-            className="mt-3 inline-block px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300"
-          >
-            Disconnect
-          </button>
-        </div>
-      );
-    }
-
+  if (!ready)
     return (
-      <div className="mt-4 p-3 rounded-lg border border-gray-200 bg-white">
-        <p className="text-sm">Status: {statusMsg}</p>
-      </div>
+      <main className="min-h-screen flex items-center justify-center bg-green-50">
+        <p>Loading Xmas Wallet...</p>
+      </main>
     );
-  };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-b from-red-50 to-green-50 p-8">
-      <div className="max-w-xl w-full rounded-2xl shadow-xl p-8 bg-white border border-red-100">
-        <header className="flex items-center gap-4">
-          <img src={APP_ICON} alt="xmas" className="w-16 h-16 rounded-lg shadow" />
-          <div>
-            <h1 className="text-2xl font-extrabold text-green-700">🎄 Xmas Wallet</h1>
-            <p className="text-sm text-gray-600">Connect any wallet on Base — Reown + WalletConnect</p>
-          </div>
-        </header>
-
-        <section className="mt-6">
-          <p className="text-sm text-gray-700">Use this single button to connect through Reown AppKit with WalletConnect as backup for any EVM wallet.</p>
-
-          <div className="mt-6 flex gap-3">
-            <button
-              onClick={connectBoth}
-              className="flex-1 px-4 py-3 rounded-2xl font-semibold shadow hover:scale-[1.01] transition-transform bg-green-600 text-white"
-            >
-              Connect Wallet (Reown + WalletConnect)
-            </button>
-
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.open("https://github.com/YourUser/xmas-wallet", "_blank");
-              }}
-              className="px-4 py-3 rounded-2xl border border-gray-200 text-sm hover:bg-gray-50"
-            >
-              GitHub
-            </a>
-          </div>
-
-          {renderStatus()}
-
-          <div className="mt-6 text-xs text-gray-500">
-            <p>Tips:</p>
-            <ul className="list-disc ml-5 mt-2">
-              <li>Deploy to Vercel using the clean URL above.</li>
-              <li>Make the repo public and include README & manifest for Farcaster dev console.</li>
-              <li>Verify Base contracts and link in README for Base Builder Rewards.</li>
-            </ul>
-          </div>
-        </section>
-      </div>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-white to-green-50 p-10">
+      <h1 className="text-3xl font-bold text-green-700 mb-6">🎄 Xmas Wallet</h1>
+      <button
+        onClick={connectWallet}
+        className="px-5 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 shadow-md"
+      >
+        Connect Wallet
+      </button>
+      <p className="mt-4 text-gray-600">{statusMsg}</p>
+      {walletName && <p className="mt-2 text-sm text-green-700">Connected: {walletName}</p>}
     </main>
   );
 }
