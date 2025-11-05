@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import WalletConnectClient from "@walletconnect/client";
 import { createAppKit } from "@reown/appkit";
