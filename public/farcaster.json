@@ -13,5 +13,16 @@
     "header": "eyJmaWQiOjIzNjY2OSwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDY3MTQ2YzBDYmE4ODEwQ0U5OGFFMjE4MGU0RmExRWNBMjAxYzhGNTYifQ",
     "payload": "eyJkb21haW4iOiJ4bWFzLXdhbGxldC52ZXJjZWwuYXBwIn0",
     "signature": "kUdpD23zI/f6i9lrXZRJyDNDQVVJX/vZ34kRVpFJBN1w3blj5dVzxbwgVo17klxFJMsB6XuW5Ur9cKbBbUnNBRw="
+  },
+  "frame": {
+    "version": "1",
+    "name": "Example Frame",
+    "iconUrl": "https://xmas-wallet.vercel.app/icon.png",
+    "homeUrl": "https://xmas-wallet.vercel.app",
+    "imageUrl": "https://xmas-wallet.vercel.app/image.png",
+    "buttonTitle": "Check this out",
+    "splashImageUrl": "https://xmas-wallet.vercel.app/splash.png",
+    "splashBackgroundColor": "#eeccff",
+    "webhookUrl": "https://xmas-wallet.vercel.app/api/webhook"
   }
 }
