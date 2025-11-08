@@ -40,7 +40,7 @@ Ready for contract or token extensions
 
 Verified open-source code with documentation
 
-🎁 Vision & Future Roadmap
+🎁 Vision & Future Rewards
 
 Add Base holiday airdrop or NFT reward sys
 
