@@ -73,7 +73,7 @@ npm install @reown/appkit @walletconnect/client viem wagmi ethers next react rea
 
 ```bash
 npm run dev
-# open http://localhost:3000
+# open http://localhost:3001
 ```
 
 5. Deploy to Vercel (recommended):
