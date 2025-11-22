@@ -4,7 +4,7 @@
 
 Xmas Wallet is a Farcaster Mini App built on the Base network, enabling users to connect any EVM-compatible wallet through Reown AppKit (for native Base connectivity) and WalletConnect (for universal multi-wallet access).
 
-It provides a smooth, secure, and festive experience for Farcaster users to manage wallets, explore on-chain interactions, and celebrate the season with Base.
+It provides a smooth, secure, and festive experience for Farcaster users to manage wallets, explore on-chain interactions, and celebrate the season with base.
 
 Built with Next.js + TailwindCSS, the app is fully open-source and deployed live on Vercel.
 
