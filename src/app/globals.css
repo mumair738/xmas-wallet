@@ -1,17 +1,13 @@
 @import "tailwindcss";
 
+/* ROOT CSS VARIABLES (ACTUAL SOURCE OF TRUTH) */
 :root {
   --background: #ffffff;
   --foreground: #181818;
+  --font-body: var(--font-geist-sans, Arial, Helvetica, sans-serif);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* DARK MODE OVERRIDES */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +15,17 @@
   }
 }
 
+/* MAP CSS VARS → TAILWIND TOKENS */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* GLOBAL ELEMENT DEFAULTS */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-background text-foreground font-sans;
+  /* No direct CSS background or font-family needed */
 }
