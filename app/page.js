@@ -15,7 +15,7 @@ export default function XmasWalletApp() {
 
   const connectWallet = async () => {
     try {
-      setStatusMsg("Initializing base wallet...");
+      setStatusMsg("Initializing wallet...");
 
       // Dynamic imports in parallel
       const [{ SignClient }, { createAppKit }, { base }] = await Promise.all([
