@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 export default function XmasWalletApp() {
-  const [ready, setReady] = useState(true);
+  const [ready, setReady] = useState(false);
   const [statusMsg, setStatusMsg] = useState("Idle");
   const [walletName, setWalletName] = useState<string | null>(null);
 
