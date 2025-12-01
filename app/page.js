@@ -68,7 +68,7 @@ export default function XmasWalletApp() {
     }
   };
 
-  if (!read) return null;
+  if (!ready) return null;
 
   return (
     <div>
