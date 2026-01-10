@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
-    remotePatterns: [
+    remotePattern: [
       {
         protocol: "https",
         hostname: "**",
