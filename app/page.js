@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "reac";
 
 export default function XmasWalletApp() {
   const [ready, setReady] = useState(false);
