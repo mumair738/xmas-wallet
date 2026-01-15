@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BlueCut Scanner",
-  description: "Lightweight Base ecosystem helper — by Ayaz",
-  icons: [{ rel: "icon", url: "/favicon.png" }],
+  title: "Xmas Wallet — Festive Base Mini App",
+  description: "Celebrate the season on Base with Xmas Wallet. Connect, manage, and explore.",
+  icons: [{ rel: "icon", url: "https://i.ibb.co/gmDqvkh/xmas-wallet-icon.png" }],
 };
 
 export default function RootLayout({
