@@ -14,16 +14,19 @@ import {
   History,
   PieChart,
   Zap,
-  Award
+  Award,
+  Activity
 } from "lucide-react";
 import Snowfall from "@/components/Snowfall";
 import TransactionHistory from "@/components/TransactionHistory";
 import PortfolioDashboard from "@/components/PortfolioDashboard";
 import TokenSwap from "@/components/TokenSwap";
 import FestiveRewards from "@/components/FestiveRewards";
+import TransactionMotivation, { triggerTransactionMotivation } from "@/components/TransactionMotivation";
+import BaseNetworkStats from "@/components/BaseNetworkStats";
 import ConfettiExplosion from 'react-confetti-explosion';
 
-type TabType = "overview" | "transactions" | "portfolio" | "swap" | "rewards";
+type TabType = "overview" | "transactions" | "portfolio" | "swap" | "rewards" | "base-stats";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
@@ -173,6 +176,17 @@ export default function Home() {
                 <Award size={16} />
                 Rewards
               </button>
+              <button
+                onClick={() => setActiveTab("base-stats")}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+                  activeTab === "base-stats"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                <Activity size={16} />
+                Base Network
+              </button>
             </div>
 
             {/* Tab Content */}
@@ -211,6 +225,7 @@ export default function Home() {
             {activeTab === "portfolio" && <PortfolioDashboard />}
             {activeTab === "swap" && <TokenSwap />}
             {activeTab === "rewards" && <FestiveRewards />}
+            {activeTab === "base-stats" && <BaseNetworkStats />}
 
             {/* Actions */}
             <div className="grid grid-cols-2 gap-3">
@@ -241,6 +256,9 @@ export default function Home() {
           <span className="text-purple-400">Farcaster</span>
         </div>
       </div>
+
+      {/* Transaction Motivation Modal */}
+      <TransactionMotivation />
 
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-festive-red/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />

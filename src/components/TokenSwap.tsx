@@ -3,6 +3,7 @@
 import { useAccount } from "wagmi";
 import { useState } from "react";
 import { ArrowRightLeft } from "lucide-react";
+import { triggerTransactionMotivation } from "./TransactionMotivation";
 
 const Zap = ({ className }: { className?: string }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24" width="24" height="24">
@@ -55,9 +56,11 @@ export default function TokenSwap() {
     setSwapping(true);
     try {
       // Simulated swap - in production, integrate with 1inch or Uniswap API
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      alert(`Swapped ${fromAmount} ${fromToken.symbol} for ${toAmount} ${toToken.symbol}`);
       setFromAmount("");
+      setToAmount("");
+      
+      // Trigger motivation popup
+      triggerTransactionMotivation("");
       setToAmount("");
     } catch (error) {
       console.error("Swap failed:", error);
