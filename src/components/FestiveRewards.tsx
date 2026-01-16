@@ -4,6 +4,12 @@ import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { Star, Gift, Flame, Award } from "lucide-react";
 
+const Zap = ({ className }: { className?: string }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24" width="24" height="24">
+    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+  </svg>
+);
+
 interface Reward {
   id: string;
   title: string;
@@ -136,10 +142,3 @@ export default function FestiveRewards() {
     </div>
   );
 }
-
-// Icon components
-const Zap = ({ className }: { className?: string }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24" width="24" height="24">
-    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-  </svg>
-);

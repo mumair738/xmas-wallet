@@ -2,7 +2,7 @@
 
 import { useAccount } from "wagmi";
 import { useState, useEffect } from "react";
-import { ArrowUpRight, ArrowDownLeft, Clock, Loader2 } from "lucide-react";
+import { ArrowUpRight, ArrowDownLeft, Loader2 } from "lucide-react";
 
 interface Transaction {
   hash: string;
