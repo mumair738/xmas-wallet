@@ -1,16 +1,19 @@
 "use client";
 
-import { useAccount, useBalance, useDisconnect } from "wagmi";
+import { useAccount, useBalance, useDisconnect, useSendTransaction } from "wagmi";
+import { parseEther } from "viem";
 import { useAppKit } from "@reown/appkit/react";
 import { useState, useEffect } from "react";
-import { 
-  Copy, 
-  ExternalLink, 
-  LogOut, 
-  Wallet, 
-  Gift, 
+import {
+  Copy,
+  ExternalLink,
+  LogOut,
+  Wallet,
+  Gift,
   Snowflake as SnowIcon,
-  CheckCircle2
+  CheckCircle2,
+  Send,
+  Loader2
 } from "lucide-react";
 import Snowfall from "@/components/Snowfall";
 import ConfettiExplosion from 'react-confetti-explosion';
@@ -22,10 +25,14 @@ export default function Home() {
   });
   const { open } = useAppKit();
   const { disconnect } = useDisconnect();
+  const { sendTransaction, data: hash, isPending, isSuccess } = useSendTransaction();
   
   const [copied, setCopied] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [recipient, setRecipient] = useState("");
+  const [amount, setAmount] = useState("");
+  const [showGiftForm, setShowGiftForm] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -38,6 +45,23 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
   }, [isConnected]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowConfetti(true);
+      setShowGiftForm(false);
+      setRecipient("");
+      setAmount("");
+    }
+  }, [isSuccess]);
+
+  const handleSendGift = () => {
+    if (!recipient || !amount) return;
+    sendTransaction({
+      to: recipient as `0x${string}`,
+      value: parseEther(amount),
+    });
+  };
 
   const copyToClipboard = () => {
     if (address) {
@@ -155,6 +179,65 @@ export default function Home() {
                 <span>Disconnect</span>
               </button>
             </div>
+            {/* Send Gift Feature */}
+            {!showGiftForm ? (
+              <button
+                onClick={() => setShowGiftForm(true)}
+                className="flex items-center justify-center w-full p-4 space-x-2 font-bold text-white transition-all bg-festive-green rounded-xl hover:bg-green-700 active:scale-95"
+              >
+                <Gift size={20} />
+                <span>Send a Xmas Gift</span>
+              </button>
+            ) : (
+              <div className="p-4 space-y-4 text-left bg-black/20 rounded-2xl border border-white/10 animate-in slide-in-from-top-4 duration-300">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-400 uppercase">Recipient Address</label>
+                  <input
+                    type="text"
+                    value={recipient}
+                    onChange={(e) => setRecipient(e.target.value)}
+                    placeholder="0x..."
+                    className="w-full p-2 text-sm bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-festive-red"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-400 uppercase">Amount (ETH)</label>
+                  <input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="0.01"
+                    className="w-full p-2 text-sm bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-600 focus:outline-none focus:border-festive-red"
+                  />
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => setShowGiftForm(false)}
+                    className="flex-1 p-2 text-sm font-bold text-gray-400 hover:text-white transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSendGift}
+                    disabled={isPending || !recipient || !amount}
+                    className="flex-[2] flex items-center justify-center p-2 space-x-2 text-sm font-bold text-white bg-festive-red rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send size={16} />}
+                    <span>{isPending ? "Sending..." : "Send ETH"}</span>
+                  </button>
+                </div>
+                {hash && (
+                  <a
+                    href={`https://basescan.org/tx/${hash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block mt-2 text-[10px] text-center text-blue-400 hover:underline"
+                  >
+                    View Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         )}
 
