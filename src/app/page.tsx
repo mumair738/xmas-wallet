@@ -20,7 +20,7 @@ import {
   Send,
   Loader2
 } from "lucide-react";
-import Snowfall from "@/components/Snowfall";
+import Snowfall from "@/components/Snow";
 import TransactionHistory from "@/components/TransactionHistory";
 import PortfolioDashboard from "@/components/PortfolioDashboard";
 import TokenSwap from "@/components/TokenSwap";
