@@ -40,4 +40,34 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# vercel
 .vercel
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vscode/settings.json
+
+# OS
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Optional
+.eslintcache
+.cache/
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Lock files (optional - uncomment if needed)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

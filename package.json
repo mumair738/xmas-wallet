@@ -1,7 +1,26 @@
 {
   "name": "xmas-wallet",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "A comprehensive Web3 wallet ecosystem built on Base blockchain with DeFi features, NFT management, and festive user experience",
+  "author": "Muhammad Umair (@mumair738)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mumair738/xmas-wallet"
+  },
+  "keywords": [
+    "web3",
+    "blockchain",
+    "base",
+    "ethereum",
+    "defi",
+    "nft",
+    "wallet",
+    "crypto",
+    "staking",
+    "farcaster"
+  ],
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -16,6 +35,7 @@
     "@types/canvas-confetti": "^1.9.0",
     "@walletconnect/client": "^1.8.0",
     "canvas-confetti": "^1.9.4",
+    "clsx": "^2.1.1",
     "ethers": "^6.15.0",
     "lucide-react": "^0.562.0",
     "next": "16.0.10",

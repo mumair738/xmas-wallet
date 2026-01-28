@@ -18,7 +18,8 @@ import {
   Award,
   Activity,
   Send,
-  Loader2
+  Loader2,
+  Settings as SettingsIcon
 } from "lucide-react";
 import Snowfall from "@/components/Snowfall";
 import TransactionHistory from "@/components/TransactionHistory";
@@ -27,9 +28,16 @@ import TokenSwap from "@/components/TokenSwap";
 import FestiveRewards from "@/components/FestiveRewards";
 import TransactionMotivation, { triggerTransactionMotivation } from "@/components/TransactionMotivation";
 import BaseNetworkStats from "@/components/BaseNetworkStats";
+import NFTGallery from "@/components/NFTGallery";
+import WalletAnalytics from "@/components/WalletAnalytics";
+import Staking from "@/components/Staking";
+import PriceTracker from "@/components/PriceTracker";
+import GasTracker from "@/components/GasTracker";
+import SocialShare from "@/components/SocialShare";
+import Settings from "@/components/Settings";
 import ConfettiExplosion from 'react-confetti-explosion';
 
-type TabType = "overview" | "transactions" | "portfolio" | "swap" | "rewards" | "base-stats";
+type TabType = "overview" | "transactions" | "portfolio" | "swap" | "rewards" | "base-stats" | "nfts" | "analytics" | "staking" | "prices" | "gas" | "share" | "settings";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
@@ -145,10 +153,10 @@ export default function Home() {
         ) : (
           <div className="w-full space-y-4 animate-in fade-in zoom-in duration-500">
             {/* Tab Navigation */}
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="flex flex-wrap gap-2 justify-center max-h-24 overflow-y-auto">
               <button
                 onClick={() => setActiveTab("overview")}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
                   activeTab === "overview"
                     ? "bg-festive-red text-white"
                     : "bg-white/5 text-gray-300 hover:bg-white/10"
@@ -157,63 +165,144 @@ export default function Home() {
                 Overview
               </button>
               <button
+                onClick={() => setActiveTab("analytics")}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                  activeTab === "analytics"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                <PieChart size={14} />
+                Analytics
+              </button>
+              <button
                 onClick={() => setActiveTab("transactions")}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
                   activeTab === "transactions"
                     ? "bg-festive-red text-white"
                     : "bg-white/5 text-gray-300 hover:bg-white/10"
                 }`}
               >
-                <History size={16} />
-                Transactions
+                <History size={14} />
+                History
               </button>
               <button
                 onClick={() => setActiveTab("portfolio")}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
                   activeTab === "portfolio"
                     ? "bg-festive-red text-white"
                     : "bg-white/5 text-gray-300 hover:bg-white/10"
                 }`}
               >
-                <PieChart size={16} />
+                <Wallet size={14} />
                 Portfolio
               </button>
               <button
+                onClick={() => setActiveTab("nfts")}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                  activeTab === "nfts"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                NFTs
+              </button>
+              <button
                 onClick={() => setActiveTab("swap")}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
                   activeTab === "swap"
                     ? "bg-festive-red text-white"
                     : "bg-white/5 text-gray-300 hover:bg-white/10"
                 }`}
               >
-                <Zap size={16} />
+                <Zap size={14} />
                 Swap
               </button>
               <button
+                onClick={() => setActiveTab("staking")}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                  activeTab === "staking"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                Staking
+              </button>
+              <button
                 onClick={() => setActiveTab("rewards")}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
                   activeTab === "rewards"
                     ? "bg-festive-red text-white"
                     : "bg-white/5 text-gray-300 hover:bg-white/10"
                 }`}
               >
-                <Award size={16} />
+                <Award size={14} />
                 Rewards
               </button>
               <button
+                onClick={() => setActiveTab("prices")}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                  activeTab === "prices"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                Prices
+              </button>
+              <button
+                onClick={() => setActiveTab("gas")}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                  activeTab === "gas"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                Gas
+              </button>
+              <button
                 onClick={() => setActiveTab("base-stats")}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
                   activeTab === "base-stats"
                     ? "bg-festive-red text-white"
                     : "bg-white/5 text-gray-300 hover:bg-white/10"
                 }`}
               >
-                <Activity size={16} />
-                Base Network
+                <Activity size={14} />
+                Base
+              </button>
+              <button
+                onClick={() => setActiveTab("share")}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                  activeTab === "share"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                <Send size={14} />
+                Share
+              </button>
+              <button
+                onClick={() => setActiveTab("settings")}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                  activeTab === "settings"
+                    ? "bg-festive-red text-white"
+                    : "bg-white/5 text-gray-300 hover:bg-white/10"
+                }`}
+              >
+                <SettingsIcon size={14} />
+                Settings
               </button>
             </div>
 
             {/* Tab Content */}
+            {activeTab === "analytics" && <WalletAnalytics />}
+            {activeTab === "nfts" && <NFTGallery />}
+            {activeTab === "staking" && <Staking />}
+            {activeTab === "prices" && <PriceTracker />}
+            {activeTab === "gas" && <GasTracker />}
+            {activeTab === "share" && <SocialShare />}
+            {activeTab === "settings" && <Settings />}
+            
             {activeTab === "overview" && (
               <div className="p-4 space-y-3 text-left bg-black/20 rounded-2xl border border-white/10">
                 <div className="flex items-center justify-between">
